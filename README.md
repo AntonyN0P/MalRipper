@@ -17,3 +17,5 @@ For search information by IP-address use ./MalRipper.py -I IP
 You can parse this.
 
 For upload file to Hybrid Analysis Sandbox and get report from, use ./MalRipper.py -F filepath 300/200/100
+
+![image](https://user-images.githubusercontent.com/97513066/149764427-3348baa3-782d-4067-8a20-4b2a1c041957.png)
