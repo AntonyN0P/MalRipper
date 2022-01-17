@@ -1,4 +1,4 @@
-import re
+#!/usr/bin/python3
 import requests
 import pandas as pd
 import sys
@@ -47,15 +47,13 @@ def check(option):
      else: print('\n[DEBUG] Entered invalid sha256 hash\n')
      sys.exit()
     elif (option == '-F'):
-     env='300'
+     env=sys.argv[3]
      correct_checker(env)
      sandbox_chk = hybrid_analyser_sandbox(argument,env)
-     hash_result_vt=virustotal_hash(sandbox_chk)
-     hash_result_ha=hybrid_analyser_hash(sandbox_chk)
-     return(sandbox_chk,hash_result_vt,hash_result_ha)
+     return(sandbox_chk)
     else:
      print('[DEBUG] Entered incorrect argument!!!\nExample: <progname> <-I/-H/-F> <ip/hash/filepath>')
-
+        
 def correct_checker(env):
     if(env!='100') and (env!='110') and (env!='120') and (env!='200') and (env!='300'):
              print("[DEBUG] Error you entered incorrect ENVIROMENT_ID!!!")
@@ -69,16 +67,6 @@ def virustotal_ip(argument):
         value = response.json()
         hostname = json_extract(value, 'hostname')
         last_resolved = json_extract(value, 'last_resolved')
-        #positives = json_extract(value["detected_urls"],'positives')
-        values = value
-        print(values)
-        for key in values:
-                for j in key:
-                    if(j=='positives'):
-                        if(key[j]==[]):
-                            break
-                        else:
-                            print(j,key[j])
         hostname = pd.DataFrame({"Hostname": hostname, "Last_resolved" : last_resolved})
         return(hostname)
 
@@ -87,15 +75,8 @@ def virustotal_hash(argument):
         response = requests.get(url_vt, params=params)
         value = response.json()
         print('\t\t\t\t\t\t\t\t===============================Virus_Total_Report===============================\n\n')
-        #Check VT answer
-        for i in value:
-            if value['response_code']==0:
-                print('Nothing ¯\_(ツ)_/¯')
-                break
-        else:
-            total = pd.DataFrame({'Name':['permalink','positives','scan_date','sha256','total','verbose_msg'],'Value':[value['permalink'], value['positives'], value['scan_date'], value['sha256'], value['total'],value['verbose_msg']]})
-            print(total)
-
+        total = pd.DataFrame({'Name':['permalink','positives','scan_date','sha256','total','verbose_msg'],'Value':[value['permalink'], value['positives'], value['scan_date'], value['sha256'], value['total'],value['verbose_msg']]})
+        print(total)
 
 def hybrid_analyser_hash(argument):
         headers = {
@@ -126,8 +107,8 @@ def hybrid_analyser_hash(argument):
                         break
                     else:
                         print(j,key[j])
-
-
+        
+        
 
 def hybrid_analyser_sandbox(filepath, env):
     headers = {
@@ -139,24 +120,24 @@ def hybrid_analyser_sandbox(filepath, env):
     files = {'file': (os.path.basename(filepath), f), 'environment_id': (None, env)}
     response = requests.post(ha_sandbox, headers=headers, files=files)
     value = response.json()
-    f.close()
-    global ha_val
-    ha_val = value['job_id']
-    global ha_hash
+    global ha_val 
+    print(value)
+    global ha_hash 
     ha_hash= value['sha256']
+
 
     if response.ok:
         print('[DEBUG] File was ulpoaded to Falcon Sandbox')
         print('job_id:',value['job_id'])
+        print(value)
         print('environment_id:',value['environment_id'])
         print('sha256:',value['sha256'])
     else:
         print('Operation Failed.')
     time.sleep(10)
     hybrid_analyser_submitted_info(ha_hash)
-
+        
 def hybrid_analyser_submitted_info(ha_hash):
-    hash = ha_hash
     headers = {
     'accept': 'application/json',
     'user-agent': 'Falcon Sandbox',
@@ -164,17 +145,13 @@ def hybrid_analyser_submitted_info(ha_hash):
 }
     data = {
   'hashes[]': ha_hash,
-}
+}   
+    ha_summary = 'https://www.hybrid-analysis.com/api/v2/report/summary'
     response = requests.post(ha_summary, headers=headers, data=data)
     res = response.json()
     print('\n\n\t\t\t\t\t\t\t\t===============================Information From Sandbox===============================n\n')
-    return(hash)
-'''    for key in res:
-        for j in key:
-           if(key[j]==[]):
-              break
-           else:
-              print(j,key[j])'''
+    print(res)
+    return(ha_hash)
 
 
 
@@ -190,3 +167,5 @@ ha_api = ha_section['HA_API']
 ha_hash = ha_section['HASHFIND_URL']
 ha_sandbox = ha_section['URLFIND_URL']
 ha_summary = ha_section['URLSUM_URL']
+
+print (check(option))
