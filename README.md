@@ -8,7 +8,8 @@ For search information by File Hash use ./MalRipper.py -H Sha256
   
 As we can see there are Mitre Attack Martix for malware hash and report by VirusTotal about posistives scan.
   
-![MalRipper_Hash](![image](https://user-images.githubusercontent.com/97513066/154960262-d4210f50-51f1-4b48-882a-b4eaaf5ba522.png)
+![image](https://user-images.githubusercontent.com/97513066/154960681-36cba4ee-5462-47da-99cf-10781b868f11.png)
+
 
 For search information by IP-address use ./MalRipper.py -I IP
   
