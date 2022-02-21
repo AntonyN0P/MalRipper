@@ -1,6 +1,6 @@
 # MalRipper
 
-Find Malware in global databases like VirusTotal, Hybrid Analysis etc.
+Find Malware in global databases like VirusTotal, Hybrid Analysis, MalwareBazaar, the most popular sandboxes etc.
 
 Script allow to find Malware by Hash, IP-address and to upload malicious file to Hybrid Analysis Sandbox.
 
