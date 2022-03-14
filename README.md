@@ -4,11 +4,13 @@ Find Malware in global databases like VirusTotal, Hybrid Analysis, MalwareBazaar
 
 Script allow to find Malware by Hash, IP-address and to upload malicious file to Hybrid Analysis Sandbox.
 
-For search information by File Hash use ./MalRipper.py -H Sha256
+For search information by File Hash use ./MalRipper.py -H Sha256 + added MalwareBazaar
   
 As we can see there are Mitre Attack Martix for malware hash and report by VirusTotal about posistives scan.
   
 ![image](https://user-images.githubusercontent.com/97513066/154960681-36cba4ee-5462-47da-99cf-10781b868f11.png)
+![image](https://user-images.githubusercontent.com/97513066/158175635-2675d07b-2399-4ce6-b22b-4538131d0b91.png)
+
 
 
 For search information by IP-address use ./MalRipper.py -I IP
